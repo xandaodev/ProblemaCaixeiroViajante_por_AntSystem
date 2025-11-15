@@ -17,9 +17,11 @@ public class AntSystem {
     */
 
     //metodos que tem que ter: 
+
     //inicializar os feromonios
     //atualizar os feromonios
     //metodo antsystem
+    //metodo de ir executando o algoritmo por N(NUMERO DE ITERACOES) vezes
     //escolher proxima cidade
     //....
     
