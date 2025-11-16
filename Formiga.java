@@ -58,7 +58,7 @@ public class Formiga {
         for(int i=0;i<numCidades -1 ;i++){
             dist+= pcv.getDistancia(trilha[i], trilha[i+1]);
         }
-        dist += pcv.getDistancia(trilha[numCidades-1], trilha[0]); [cite: 97]
+        dist += pcv.getDistancia(trilha[numCidades-1], trilha[0]); 
         //salva o resultado final
         this.distanciaViagem =dist;
         //retorna o valor calculado

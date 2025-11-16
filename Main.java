@@ -21,13 +21,12 @@ public class Main {
         int numeroFormigas = numCidades; 
         int maxIteracoes = 100; 
 
-        System.out.println("A iniciar Ant System com " + numeroFormigas + " formigas...");
+        System.out.println("iniciado ant system com " + numeroFormigas + " formigas...");
 
         AntSystem as = new AntSystem(pcv, numeroFormigas);
         as.executar(maxIteracoes);
 
-        System.out.println("-------------------------------");
-        System.out.println("Melhor Distância Encontrada: " + as.getMelhorDistancia());
-        System.out.println("Melhor Caminho: " + Arrays.toString(as.getMelhorTrilha()));
+        System.out.println("melhor distancia encontrada: " + as.getMelhorDistancia());
+        System.out.println("melhor caminho: " + Arrays.toString(as.getMelhorTrilha()));
     }
 }
