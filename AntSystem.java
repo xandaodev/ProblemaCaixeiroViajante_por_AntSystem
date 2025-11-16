@@ -82,11 +82,34 @@ public class AntSystem {
     }
 
     //metodo da roleta que o vinicius tinha feito em aula
-    /*public void selecionarProximaCidade(Formiga a){
+    public void selecionarProximaCidade(Formiga a){
         int i = a.getCidadeAtual();
         int numCidades= pcv.getNumCidades();
         double[] probabilidades = new double[numCidades];
-        double somaProbalidade = 0.0;
+        double somaProbabilidades = 0.0;
+
+        //calculo do desejo que o vinicius flaou em aula e to no slide
+        for(int j=0; j< numCidades;j++){
+            if (!a.foiVisitada(j)){
+                double tau =feromonios[i][j];                
+                double eta = 1.0 / pcv.getDistancia(i, j);   
+                probabilidades[j] =Math.pow(tau, alpha) * Math.pow(eta, beta);
+                somaProbabilidades += probabilidades[j];
+            }else{
+                probabilidades[j] = 0.0; // nao pode acessar cidade ja visitada
+            }
+        }
+        double roleta= aleatorio.nextDouble() * somaProbabilidades;
+        double acumulado = 0.0;
+        for(int j = 0; j < numCidades; j++){
+            if(!a.foiVisitada(j)){
+                acumulado += probabilidades[j];
+                if(acumulado >=roleta){
+                    a.visitarCidade(j);
+                    return; // escolheu a cidade => sai do metodo
+                }
+            }
+        }
     }
-    */
+    
 }
