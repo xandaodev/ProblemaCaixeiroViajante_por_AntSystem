@@ -18,7 +18,7 @@ public class AntSystem {
     //parametros que ele deu no slide:
     
     private double alpha = 1.0; //influencia do feromonio
-    private double beta = 5.0; //influencia da distancia
+    private double beta = 3.0; //influencia da distancia
     private double rho = 0.5; //taxa de evaporaçao
     private double Q = 100.0; //contsante do deposito de feromonio
     private double tau0 = 1e-6;// 10 elevado a -6 - feromonio inicial
@@ -44,7 +44,7 @@ public class AntSystem {
 
     //************************************************************************************ 
 
-    
+
     //metodos principais abaixo (coisa pra caralho):
 
     //metodo que inicializa os feromonios
