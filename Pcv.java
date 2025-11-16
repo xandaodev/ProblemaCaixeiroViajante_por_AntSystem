@@ -1,5 +1,6 @@
 package ProblemaCaixeiroViajante_por_AntSystem;
 //tem que por umas bibliotecas aqui
+import java.io.*;
 
 public class Pcv {
     private int numCidades;
