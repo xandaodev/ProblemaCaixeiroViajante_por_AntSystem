@@ -6,11 +6,14 @@ public class Main {
     public static void main(String[] args) {
         // exemplo simples de 5 cidades 
         double[][] distanciasExemplo = {
-            {0, 10, 12, 25, 15},
-            {10, 0, 20, 18, 8},
-            {12, 20, 0, 16, 12},
-            {25, 18, 16, 0, 22},
-            {15, 8, 12, 22, 0}
+            // Cidades: 0   1   2   3   4   5   6
+            {0, 10, 15, 20, 30, 25, 12}, // Cidade 0
+            {10, 0, 18, 5, 22, 30, 20}, // Cidade 1
+            {15, 18, 0, 14, 10, 8, 28}, // Cidade 2
+            {20, 5, 14, 0, 16, 26, 17}, // Cidade 3
+            {30, 22, 10, 16, 0, 12, 19}, // Cidade 4
+            {25, 30, 8, 26, 12, 0, 14}, // Cidade 5
+            {12, 20, 28, 17, 19, 14, 0}  // Cidade 6
         };
 
         int numCidades = distanciasExemplo.length;

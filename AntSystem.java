@@ -41,6 +41,10 @@ public class AntSystem {
         inicializarFeromonios();
     }
     
+
+    //************************************************************************************ 
+
+    
     //metodos principais abaixo (coisa pra caralho):
 
     //metodo que inicializa os feromonios
