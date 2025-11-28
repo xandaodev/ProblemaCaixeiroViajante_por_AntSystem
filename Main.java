@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         // exemplo simples de 5 cidades 
-        double[][] distanciasExemplo = {
+         double[][] distanciasExemplo = {
             // Cidades: 0   1   2   3   4   5   6
             {0, 10, 15, 20, 30, 25, 12}, // Cidade 0
             {10, 0, 18, 5, 22, 30, 20}, // Cidade 1
@@ -30,6 +30,7 @@ public class Main {
         as.executar(maxIteracoes);
 
         System.out.println("melhor distancia encontrada: " + as.getMelhorDistancia());
-        System.out.println("melhor caminho: " + Arrays.toString(as.getMelhorTrilha()));
+        System.out.println("melhor caminho: " + Arrays.toString(as.getMelhorTrilha())); 
+
     }
 }

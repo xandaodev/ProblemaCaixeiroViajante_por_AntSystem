@@ -40,12 +40,8 @@ public class AntSystem {
         //preenche a matriz de feromonio
         inicializarFeromonios();
     }
-    
 
-    //************************************************************************************ 
-
-
-    //metodos principais abaixo (coisa pra caralho):
+    //metodos principais abaixo:
 
     //metodo que inicializa os feromonios
     public void inicializarFeromonios(){
