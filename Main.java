@@ -4,33 +4,67 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        // exemplo simples de 5 cidades 
-         double[][] distanciasExemplo = {
-            // Cidades: 0   1   2   3   4   5   6
-            {0, 10, 15, 20, 30, 25, 12}, // Cidade 0
-            {10, 0, 18, 5, 22, 30, 20}, // Cidade 1
-            {15, 18, 0, 14, 10, 8, 28}, // Cidade 2
-            {20, 5, 14, 0, 16, 26, 17}, // Cidade 3
-            {30, 22, 10, 16, 0, 12, 19}, // Cidade 4
-            {25, 30, 8, 26, 12, 0, 14}, // Cidade 5
-            {12, 20, 28, 17, 19, 14, 0}  // Cidade 6
-        };
 
-        int numCidades = distanciasExemplo.length;
-        
-        Pcv pcv = new Pcv(numCidades);
-        pcv.setMatrizDistancias(distanciasExemplo); 
-        
-        int numeroFormigas = numCidades; 
-        int maxIteracoes = 100; 
+        String arquivo = "LAU15_dist.txt"; 
 
-        System.out.println("iniciado ant system com " + numeroFormigas + " formigas...");
+        Pcv pcv = new Pcv(0);
+        pcv.lerArquivo(arquivo);
 
-        AntSystem as = new AntSystem(pcv, numeroFormigas);
-        as.executar(maxIteracoes);
+        int numCidades = pcv.getNumCidades();
+        int maxIteracoes = 100;
+        double rho = 0.5;
+        double Q = 100.0;
+        double tau0 = 0.0000000000000001;
 
-        System.out.println("melhor distancia encontrada: " + as.getMelhorDistancia());
-        System.out.println("melhor caminho: " + Arrays.toString(as.getMelhorTrilha())); 
+        // valores do experimento fatorial
+        int[] valoresM = { numCidades, 2 * numCidades };
+        double[] valoresAlpha = { 1.0, 2.0 };
+        double[] valoresBeta  = { 3.0, 5.0 };
+
+        // quantas vezes repetir cada combinação 
+        int numRepeticoes = 5;
+
+        System.out.println("=== Experimento fatorial no Ant System ===");
+        System.out.println("Instância: LAU15 (15 cidades)\n");
+
+        for (int m : valoresM) {
+            for (double alpha : valoresAlpha) {
+                for (double beta : valoresBeta) {
+
+                    double somaMelhores = 0.0;
+                    double melhorDaComb = Double.MAX_VALUE;
+                    int[] melhorTrilhaDaComb = null;
+
+                    System.out.println("-----------------------------------------");
+                    System.out.println("m = " + m + ", alpha = " + alpha + ", beta = " + beta);
+
+                    for (int rep = 1; rep <= numRepeticoes; rep++) {
+
+                        AntSystem as = new AntSystem(pcv, m, alpha, beta, rho, Q, tau0);
+                        as.executar(maxIteracoes);
+
+                        double dist = as.getMelhorDistancia();
+                        somaMelhores += dist;
+
+                        if (dist < melhorDaComb) {
+                            melhorDaComb = dist;
+                            melhorTrilhaDaComb = as.getMelhorTrilha().clone();
+                        }
+
+                        System.out.println("  Execução " + rep + " -> melhor distância = " + dist);
+                    }
+
+                    double media = somaMelhores / numRepeticoes;
+
+                    System.out.println(">> RESULTADO COMBINAÇÃO");
+                    System.out.println("   Média das melhores distâncias = " + media);
+                    System.out.println("   Melhor distância obtida      = " + melhorDaComb);
+                    System.out.println("   Melhor trilha (da combinação)= " 
+                            + Arrays.toString(melhorTrilhaDaComb));
+                    System.out.println();
+                }
+            }
+        }
 
     }
 }

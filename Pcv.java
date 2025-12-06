@@ -9,11 +9,10 @@ public class Pcv {
 
     public Pcv(int numCidades){
         this.numCidades = numCidades;
-        //não da pra inicializar o numero de ciaddes aqui sem ter lido a matriz!
     }
 
     public void lerArquivo(String caminhoArquivo){
-        //descobre numero de cidades
+        //descobre o número de cidades
         int linhas = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo));
@@ -28,7 +27,7 @@ public class Pcv {
         double[][] matriz_temp = new double[linhas][linhas];
         //preenche a matriz
         try{
-            Scanner sc = new Scanner(new File("C:\\Users\\User\\Desktop\\trabalho_grafos\\ProblemaCaixeiroViajante_por_AntSystem\\LAU15_dist.txt"));
+            Scanner sc = new Scanner(new File("LAU15_dist.txt"));
 
             for(int i = 0; i<linhas; i++){
                 for(int j = 0; j<linhas; j++){
@@ -37,7 +36,7 @@ public class Pcv {
             }
             sc.close();
         }catch(FileNotFoundException e){
-            System.out.println("! erro ao abrir o arquivo !");
+            System.out.println("Erro ao abrir o arquivo !");
         }
         setMatrizDistancias(matriz_temp);
     }

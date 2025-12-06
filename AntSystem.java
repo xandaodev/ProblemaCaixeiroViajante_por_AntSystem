@@ -13,17 +13,14 @@ public class AntSystem {
     private int[] melhorTrilhaGlobal;
     //guarda o custo da melhor viagem
     private double melhorDistanciaGlobal = Double.MAX_VALUE;//começa com infinito
-
-
-    //parametros que ele deu no slide:
     
-    private double alpha = 1.0; //influencia do feromonio
-    private double beta = 3.0; //influencia da distancia
-    private double rho = 0.5; //taxa de evaporaçao
-    private double Q = 100.0; //contsante do deposito de feromonio
-    private double tau0 = 1e-6;// 10 elevado a -6 - feromonio inicial
+    private double alpha;   //influencia do feromônio
+    private double beta;    //influência da distância
+    private double rho; //taxa de evaporação
+    private double Q;   //contsante do depósito de feromônio
+    private double tau0;    // 10 elevado a -16 - feromônio inicial
 
-    //gera numeros aleatorios
+    //gera numeros aleatórios
     private Random aleatorio = new Random();
 
     //contrutor:
@@ -33,7 +30,7 @@ public class AntSystem {
         this.feromonios =new double[pcv.getNumCidades()][pcv.getNumCidades()];
         this.melhorTrilhaGlobal=new int[pcv.getNumCidades()];
 
-        // inicia as formiguinha
+        // inicia as formigas
         for(int k = 0;k< numFormigas;k++){
             formigas[k]=new Formiga(pcv.getNumCidades());
         }
@@ -41,9 +38,26 @@ public class AntSystem {
         inicializarFeromonios();
     }
 
+    //construtor secundario para os parâmetros alfa, beta, etc
+    public AntSystem(Pcv pcv, int numFormigas, double alpha, double beta, double rho, double Q, double tau0) {
+        this.pcv = pcv;
+        this.formigas = new Formiga[numFormigas];
+        this.feromonios = new double[pcv.getNumCidades()][pcv.getNumCidades()];
+        this.melhorTrilhaGlobal = new int[pcv.getNumCidades()];
+        for (int k = 0; k < numFormigas; k++) {
+            formigas[k] = new Formiga(pcv.getNumCidades());
+        }
+        this.alpha = alpha;
+        this.beta = beta;
+        this.rho = rho;
+        this.Q = Q;
+        this.tau0 = tau0;
+        inicializarFeromonios();
+    }
+
     //metodos principais abaixo:
 
-    //metodo que inicializa os feromonios
+    //inicializa os feromônios
     public void inicializarFeromonios(){
         for(int i=0;i <pcv.getNumCidades();i++){
             for (int j = 0; j < pcv.getNumCidades(); j++) {
@@ -52,48 +66,44 @@ public class AntSystem {
         }
     }
 
-    //metodo que executa o algoritmo, loop principal:
+    //método que executa o algoritmo, loop principal:
     public void executar(int maxIteracoes){
         for(int t=0; t<maxIteracoes; t++){
             //consturir a viagem de cada formiga:
             construirSolucoes();
-            //atualiza os feromonios(hora que o feromonio evapora que o vinicius falou):
             atualizarFeromonios();
-            System.out.println("Iteração " + t + " - Melhor Distância: " + melhorDistanciaGlobal);
         }
     }
 
-    //metodo que controi a viagem de cada formiguinha, cada uma faz sua propria viagem:
+    //contró a viagem de cada formiga
     private void construirSolucoes(){
         for(Formiga a : formigas){
-            //aqui cada formigas vai pra uma cidade aleatoria
+            //cada formigas vai pra uma cidade aleatoria
             a.resetar(aleatorio.nextInt(pcv.getNumCidades()));
         }
-        //movendo as formgas:
+
         int numPassos = pcv.getNumCidades()-1;
         for(int passo=0;passo <numPassos; passo++){
             for(Formiga a: formigas){
                 selecionarProximaCidade(a);
             }
         }
-        //depois do calculo de todas as formigas, calcular as distancias e atualizar com a melhor
+        //calcula as distâncias e atualiza com a menor
         for(Formiga a: formigas){
             double dist = a.calcularDistanciaTotal(pcv);
             if(dist<melhorDistanciaGlobal){
                 melhorDistanciaGlobal = dist;
-                melhorTrilhaGlobal =a.getTrilha().clone();//esse.clone é pra criar a copia da trilha, muito util essa paradinha ai 
+                melhorTrilhaGlobal =a.getTrilha().clone();
             }
         }
     }
 
-    //metodo da roleta que o vinicius tinha feito em aula
     public void selecionarProximaCidade(Formiga a){
         int i = a.getCidadeAtual();
         int numCidades= pcv.getNumCidades();
-        double[] probabilidades = new double[numCidades];//armazena o "desejo" pra cada cidade
-        double somaProbabilidades = 0.0;//soma o desejo
+        double[] probabilidades = new double[numCidades];
+        double somaProbabilidades = 0.0;
 
-        //calculo do desejo que o vinicius flaou em aula e to no slide
         for(int j=0; j< numCidades;j++){
             if (!a.foiVisitada(j)){
                 double tau =feromonios[i][j];                
@@ -101,25 +111,24 @@ public class AntSystem {
                 probabilidades[j] =Math.pow(tau, alpha) * Math.pow(eta, beta);
                 somaProbabilidades += probabilidades[j];
             }else{
-                probabilidades[j] = 0.0; // nao pode acessar cidade ja visitada
+                probabilidades[j] = 0.0; //não pode ir para cidade já visitada
             }
         }
-        //aqui ele gira a roleta e sorteia um nmr entre 0  e somaProbal=bilidades
+
         double roleta= aleatorio.nextDouble() * somaProbabilidades;
         double acumulado = 0.0;
         for(int j = 0; j < numCidades; j++){
-            //so considera cidade q n foram visitadas
             if(!a.foiVisitada(j)){
-                acumulado += probabilidades[j];//acumula o desjeo
+                acumulado += probabilidades[j];
                 if(acumulado >=roleta){
                     a.visitarCidade(j);
-                    return; // escolheu a cidade => sai do metodo
+                    return; //depois que "escolhe" a cidade sai do método
                 }
             }
         }
     }
 
-    //metodo de atualizar feromonios
+    //atualiza feromonios
     public void atualizarFeromonios(){
         //evaporacao
         for(int i=0; i<pcv.getNumCidades(); i++){
@@ -127,7 +136,7 @@ public class AntSystem {
                 feromonios[i][j] *= (1.0-rho);
             }
         }
-        //deposito
+
         for(Formiga k : formigas){
             double deltaTau = Q / k.getDistanciaViagem();
             int[] trilha = k.getTrilha();
@@ -138,11 +147,9 @@ public class AntSystem {
                 feromonios[i][j] += deltaTau;
                 feromonios[j][i] += deltaTau;
             }
-            // Não esquecer a aresta de volta (última -> primeira)
             int ultimo = trilha[trilha.length - 1];
-            //pega a ultima cidade da  trilha
             int primeiro =trilha[0];
-            //deposita feromonio na aresta
+
             feromonios[ultimo][primeiro] += deltaTau;
             feromonios[primeiro][ultimo] += deltaTau;
         }
