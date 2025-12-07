@@ -23,7 +23,7 @@ public class AntSystem {
     //gera numeros aleatórios
     private Random aleatorio = new Random();
 
-    //contrutor:
+    //contrutor(inicializa a colônia com valores padrão e cria as formigas):
     public AntSystem(Pcv pcv, int numFormigas){
         this.pcv= pcv;
         this.formigas =new Formiga[numFormigas];
@@ -75,7 +75,7 @@ public class AntSystem {
         }
     }
 
-    //contró a viagem de cada formiga
+    // constroi e gerencia o ciclo de vida das formigas em uma iteração, reseta, anda e avalia
     private void construirSolucoes(){
         for(Formiga a : formigas){
             //cada formigas vai pra uma cidade aleatoria
@@ -83,6 +83,7 @@ public class AntSystem {
         }
 
         int numPassos = pcv.getNumCidades()-1;
+        //move todas as formigas ate completar o ciclo
         for(int passo=0;passo <numPassos; passo++){
             for(Formiga a: formigas){
                 selecionarProximaCidade(a);
@@ -98,12 +99,14 @@ public class AntSystem {
         }
     }
 
+    //equaçao da roleta
     public void selecionarProximaCidade(Formiga a){
         int i = a.getCidadeAtual();
         int numCidades= pcv.getNumCidades();
         double[] probabilidades = new double[numCidades];
         double somaProbabilidades = 0.0;
 
+        // calcula o desejo de ir para acidade vizinha
         for(int j=0; j< numCidades;j++){
             if (!a.foiVisitada(j)){
                 double tau =feromonios[i][j];                
@@ -115,6 +118,7 @@ public class AntSystem {
             }
         }
 
+        // executa a roleta para escolher a próxima cidade baseado nas probabilidades calculadas
         double roleta= aleatorio.nextDouble() * somaProbabilidades;
         double acumulado = 0.0;
         for(int j = 0; j < numCidades; j++){
@@ -128,15 +132,15 @@ public class AntSystem {
         }
     }
 
-    //atualiza feromonios
+    //atualiza feromonios, realiza a evaporaçao e os novos feromonios nas trilhas usadas
     public void atualizarFeromonios(){
-        //evaporacao
         for(int i=0; i<pcv.getNumCidades(); i++){
             for(int j=0; j< pcv.getNumCidades(); j++){
                 feromonios[i][j] *= (1.0-rho);
             }
         }
 
+        //as rotas mais curtas receebem mais feromonios
         for(Formiga k : formigas){
             double deltaTau = Q / k.getDistanciaViagem();
             int[] trilha = k.getTrilha();
