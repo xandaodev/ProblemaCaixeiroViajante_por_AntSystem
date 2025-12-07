@@ -58,11 +58,11 @@ public class Main {
                     }
 
                     double media = somaMelhores / numRepeticoes;
-
+                    System.out.print("\n");
                     System.out.println(">> RESULTADO COMBINAÇÃO");
                     System.out.println("   Média das melhores distâncias = " + media);
-                    System.out.println("   Melhor distância obtida      = " + melhorDaComb);
-                    System.out.println("   Melhor trilha (da combinação)= " 
+                    System.out.println("   Melhor distância obtida       = " + melhorDaComb);
+                    System.out.println("   Melhor trilha (da combinação) = " 
                             + Arrays.toString(melhorTrilhaDaComb));
                     System.out.println();
                 }

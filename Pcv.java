@@ -41,6 +41,7 @@ public class Pcv {
         setMatrizDistancias(matriz_temp);
     }
 
+    //getters e setters
     public void setMatrizDistancias(double[][] matriz){
         this.matrizDistancias = matriz;
         this.numCidades = matriz.length;
