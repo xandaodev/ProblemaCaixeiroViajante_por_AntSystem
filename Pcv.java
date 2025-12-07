@@ -20,14 +20,13 @@ public class Pcv {
                 linhas++;
             }
             br.close();
-        } catch (IOException e) {
+        } catch (IOException e){
             System.out.println("Erro ao contar linhas do arquivo.");
             return;
         }
         double[][] matriz_temp = new double[linhas][linhas];
         //preenche a matriz
         try{
-            //Scanner sc = new Scanner(new File("LAU15_dist.txt"));
             Scanner sc = new Scanner(new File(caminhoArquivo));
 
             for(int i = 0; i<linhas; i++){

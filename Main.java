@@ -16,8 +16,8 @@ public class Main {
         double Q = 100.0;
         //no slide sobre o trabalho tem uma diferença em relaçao aos valores dessa variavel, no slide 16 fala 10^-16, e no 29 fala 10^-6
         //na duvida optamos por deixar o ultimo valor que apareceu, no ultimo slide, que é 10^-6
-        //double tau0 = 0.0000000000000001; // 10 elevado a -16
         double tau0 = 1.0e-6; // 10 elevado a -6
+        //double tau0 = 0.0000000000000001; // 10 elevado a -16
 
         // valores do experimento fatorial
         int[] valoresM = { numCidades, 2 * numCidades };

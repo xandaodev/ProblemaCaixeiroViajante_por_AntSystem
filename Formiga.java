@@ -3,7 +3,7 @@ package ProblemaCaixeiroViajante_por_AntSystem;
 import java.util.Arrays;
 
 public class Formiga {
-    private boolean[] visitados;    //quais cidades já foram visitadas
+    private boolean[] visitados;//quais cidades já foram visitadas
     private double distanciaViagem; //custo total da viagem completa
     private int trilha[];   //sequência de cidades visitadas
     private int numCidades;
