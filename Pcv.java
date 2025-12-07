@@ -27,7 +27,8 @@ public class Pcv {
         double[][] matriz_temp = new double[linhas][linhas];
         //preenche a matriz
         try{
-            Scanner sc = new Scanner(new File("LAU15_dist.txt"));
+            //Scanner sc = new Scanner(new File("LAU15_dist.txt"));
+            Scanner sc = new Scanner(new File(caminhoArquivo));
 
             for(int i = 0; i<linhas; i++){
                 for(int j = 0; j<linhas; j++){
